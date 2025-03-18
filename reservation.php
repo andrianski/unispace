@@ -4,7 +4,7 @@ require 'config.php';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     session_start();
     if (!isset($_SESSION['user_id'])) {
-        die("Не сте влезли в системата.");
+        die("Не сте влезнали в системата.");
     }
 
     $user_id = $_SESSION['user_id'];
