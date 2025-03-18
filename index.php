@@ -24,7 +24,7 @@ session_start();
 
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'login'; // Ако няма параметър, по подразбиране "home"
-$page = basename($page); // Защита срещу директории
+$page = basename($page); 
 
 $file = "pages/$page.php";
 
