@@ -37,7 +37,7 @@ $bookings = [
         <!-- Заглавна част -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Заетост на <?php echo $room; ?></h2>
-            <a href="pages/dashboard.php" class="btn btn-secondary">Назад към списъка</a>
+            <a href="?pages=dashboard.php" class="btn btn-secondary">Назад към списъка</a>
         </div>
 
         <!-- Таблица за заетост -->
