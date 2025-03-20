@@ -17,7 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: index.php?page=dashboard");
         exit;
     } else {
-        echo "Грешно потребителско име или парола!";
+        
+        $error_message = "Грешно потребителско име или парола!";
     }
 }
 ?>
@@ -39,3 +40,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+<!-- Bootstrap Modal за показване на съобщение за грешка -->
+<?php if (!empty($error_message)): ?>
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Грешка</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php echo $error_message; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+<script>
+    // Отваряне на модала при грешка
+    <?php if (!empty($error_message)): ?>
+        var myModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        myModal.show();
+    <?php endif; ?>
+</script>
