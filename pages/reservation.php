@@ -1,18 +1,18 @@
 <?php
-session_start();
+//session_start();
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
 // Връзка с базата данни
-require 'db_connection.php';
-
+//require 'db_connection.php';
 // Вземане на данни от формата
 $room_id = $_POST['room_id'];
+$date = $_POST['date'];
 $teacher_name = $_POST['teacher_name'];
 $course_name = $_POST['course_name'];
-$time_slots = $_POST['time_slots']; // Масив с избраните часове
+$time_slots = $_POST['time_slot_id']; // Масив с избраните часове
 
 // Записване на резервациите в базата данни
 try {
