@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `reservations`
 --
-
+USE unispace;
 DROP TABLE IF EXISTS `reservations`;
 CREATE TABLE IF NOT EXISTS `reservations` (
   `id` int NOT NULL AUTO_INCREMENT,
