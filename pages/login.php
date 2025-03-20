@@ -38,6 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="text-center mt-3">
             <a href="?page=register" class="text-decoration-none">Регистрация</a>
         </div>
+        <div class="text-center mt-3">
+            <a href="?page=forgottenpass" class="text-decoration-none">Забравена парола</a>
+        </div>
     </div>
 </div>
 <!-- Bootstrap Modal за показване на съобщение за грешка -->
