@@ -6,7 +6,7 @@ $dbname = 'unispace';
 
 $dbusername = 'root'; // Замени с твоя MySQL потребител
 $dbpassword = 'zaxscd12'; // Замени с парола, ако има
-
+hhh
 $username = 'root'; // Замени с твоя MySQL потребител
 $password = ''; // Замени с парола, ако има
 
