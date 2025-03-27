@@ -1,10 +1,15 @@
 <?php
+
+
+
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header("Location: ./index.php?page=login");
     exit();
 }
 // Вземане на данни от формата
-$room_id = $_POST['room_id'];
+if (isset($_POST['room_id'])) {
+    $room_id = $_POST['room_id'];
+
 $date = $_POST['date'];
 $teacher_name = $_POST['teacher_name'];
 $course_name = $_POST['course_name'];
@@ -15,10 +20,9 @@ try {
     $pdo->beginTransaction(); // Започваме транзакция
 
     foreach ($time_slots as $time_slot_id) {
-        $stmt = $pdo->prepare("
-            INSERT INTO reservations (room_id, time_slot_id, teacher_name, course_name)
-            VALUES (:room_id, :time_slot_id, :teacher_name, :course_name)
+        $stmt = $pdo->prepare("INSERT INTO `reservations` (`id`, `user_id`, `room_id`, `time_slot_id`, `date`, `status`, `created_at`) VALUES (NULL, '3', '1', '1', '2025-03-11', 'pending', CURRENT_TIMESTAMP)
         ");
+		
         $stmt->execute([
             ':room_id' => $room_id,
             ':time_slot_id' => $time_slot_id,
@@ -33,6 +37,12 @@ try {
     $pdo->rollBack(); // Отменяме транзакцията при грешка
     echo "Грешка при резервация: " . $e->getMessage();
 }
+
+} else {
+
+
+
+
 // Връзка с базата данни и извличане на данни
 $stmt = $pdo->query("SELECT id, name FROM rooms");
 $rooms = $stmt->fetchAll();
@@ -123,3 +133,8 @@ $rooms = $stmt->fetchAll();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<?php
+}
+
+?>
