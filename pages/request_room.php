@@ -1,7 +1,43 @@
 <?php
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+// Вземане на данни от формата
+$room_id = $_POST['room_id'];
+$date = $_POST['date'];
+$teacher_name = $_POST['teacher_name'];
+$course_name = $_POST['course_name'];
+$time_slots = $_POST['time_slot_id']; // Масив с избраните часове
+
+// Записване на резервациите в базата данни
+try {
+    $pdo->beginTransaction(); // Започваме транзакция
+
+    foreach ($time_slots as $time_slot_id) {
+        $stmt = $pdo->prepare("
+            INSERT INTO reservations (room_id, time_slot_id, teacher_name, course_name)
+            VALUES (:room_id, :time_slot_id, :teacher_name, :course_name)
+        ");
+        $stmt->execute([
+            ':room_id' => $room_id,
+            ':time_slot_id' => $time_slot_id,
+            ':teacher_name' => $teacher_name,
+            ':course_name' => $course_name,
+        ]);
+    }
+
+    $pdo->commit(); // Потвърждаваме транзакцията
+    echo "Резервациите са успешни!";
+} catch (PDOException $e) {
+    $pdo->rollBack(); // Отменяме транзакцията при грешка
+    echo "Грешка при резервация: " . $e->getMessage();
+}
 // Връзка с базата данни и извличане на данни
 $stmt = $pdo->query("SELECT id, name FROM rooms");
 $rooms = $stmt->fetchAll();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +56,7 @@ $rooms = $stmt->fetchAll();
 <body>
     <div class="container mt-5">
         <h2>Резервиране на зала</h2>
-        <form action="reservation.php" method="post">
+        <form action="" method="post">
             <!-- Избор на зала -->
             <div class="mb-3">
                 <label class="form-label">Избери зала:</label>
@@ -66,7 +102,7 @@ $rooms = $stmt->fetchAll();
                 if (roomId) {
                     // AJAX заявка за зареждане на свободните часове
                     $.ajax({
-                        url: './pages/get_free_slots.php', // Скрипт, който връща свободните часове
+                        url: './ajax/get_free_slots.php', // Скрипт, който връща свободните часове
                         type: 'GET',
                         data: { room_id: roomId },
                         success: function (response) {

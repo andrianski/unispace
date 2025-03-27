@@ -1,10 +1,10 @@
 <?php
 $host = 'localhost';
 $dbname = 'unispace';
-//include('../dbpass.php');
+//include '../dbpass.php');
 // сложи в горния файл
 $username = 'root'; // Замени с твоя MySQL потребител
-$password = ''; // Замени с парола, ако има
+$password = 'zaxscd12'; // Замени с парола, ако има
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
