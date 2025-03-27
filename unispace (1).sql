@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Mar 20, 2025 at 09:00 AM
--- Server version: 8.2.0
--- PHP Version: 8.2.13
+-- Host: localhost
+-- Generation Time: 27 март 2025 в 08:56
+-- Версия на сървъра: 8.0.17
+-- PHP Version: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,44 +25,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reservations`
+-- Структура на таблица `reservations`
 --
-USE unispace;
-DROP TABLE IF EXISTS `reservations`;
-CREATE TABLE IF NOT EXISTS `reservations` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `room_id` int NOT NULL,
-  `time_slot_id` int NOT NULL,
+
+CREATE TABLE `reservations` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `time_slot_id` int(11) NOT NULL,
   `date` date NOT NULL,
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `room_id` (`room_id`),
-  KEY `time_slot_id` (`time_slot_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Схема на данните от таблица `reservations`
+--
+
+INSERT INTO `reservations` (`id`, `user_id`, `room_id`, `time_slot_id`, `date`, `status`, `created_at`) VALUES
+(1, 3, 1, 1, '2025-03-11', 'pending', '2025-03-27 08:11:41');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rooms`
+-- Структура на таблица `rooms`
 --
 
-DROP TABLE IF EXISTS `rooms`;
-CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `rooms` (
+  `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `capacity` int NOT NULL,
+  `capacity` int(11) NOT NULL,
   `equipment` text,
-  `status` tinyint NOT NULL DEFAULT '0',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `rooms`
+-- Схема на данните от таблица `rooms`
 --
 
 INSERT INTO `rooms` (`id`, `name`, `capacity`, `equipment`, `status`, `created_at`) VALUES
@@ -77,20 +77,18 @@ INSERT INTO `rooms` (`id`, `name`, `capacity`, `equipment`, `status`, `created_a
 -- --------------------------------------------------------
 
 --
--- Table structure for table `time_slots`
+-- Структура на таблица `time_slots`
 --
 
-DROP TABLE IF EXISTS `time_slots`;
-CREATE TABLE IF NOT EXISTS `time_slots` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `time_slots` (
+  `id` int(11) NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `time_slots`
+-- Схема на данните от таблица `time_slots`
 --
 
 INSERT INTO `time_slots` (`id`, `start_time`, `end_time`, `created_at`) VALUES
@@ -105,36 +103,100 @@ INSERT INTO `time_slots` (`id`, `start_time`, `end_time`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Структура на таблица `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
   `username` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
   `password` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `role` enum('student','professor','admin') DEFAULT 'student',
-  `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `reset_token` varchar(255) DEFAULT NULL,
-  `reset_token_expiry` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+  `fname` varchar(50) DEFAULT NULL,
+  `lname` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
+  `role` enum('admin','teacher','student') NOT NULL DEFAULT 'student',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Схема на данните от таблица `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`, `date_created`, `reset_token`, `reset_token_expiry`) VALUES
-(8, 'admin', '$2y$10$MCH0L3DpqsDjUTmwWbr71.IREoQV5S4EH5T7Fjr0ZJvOhhU0i6o7G', '', 'student', '2025-03-20 08:42:58', NULL, NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `fname`, `lname`, `email`, `mobile`, `role`, `created_at`) VALUES
+(1, 'ivan', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, NULL, 'student', '2025-03-27 08:34:23'),
+(2, 'petar', '741f6ba10dc0aa92b17b49716023f24a', NULL, NULL, NULL, NULL, 'student', '2025-03-27 08:34:23'),
+(3, 'admin', '$2y$10$GSZ29.ZbKPNg..qMCnJwgeusuTYHGjiLPcyjFJwu7NoCwKvGT/cIu', NULL, NULL, NULL, NULL, 'student', '2025-03-27 08:34:23'),
+(4, 'admin1', '$2y$10$jLwert4NkySk22N.h/2PHOIeL3mWn7KtfAufBajcxJSarFfY8ugoe', NULL, NULL, NULL, NULL, 'student', '2025-03-27 08:34:23'),
+(5, 'Petko', '$2y$10$rpThhV0anAiuQMhwc8HP5.nGAzAwtCIYPJx/0hGnNluhqVejVCLDq', NULL, NULL, NULL, NULL, 'student', '2025-03-27 08:34:23'),
+(6, 'sdsadada', 'default_password', 'asdads', 'adads', 'andrian.minchev@gmail.com', '0898567839', 'student', '2025-03-27 08:52:13');
 
 --
--- Constraints for dumped tables
+-- Indexes for dumped tables
 --
 
 --
--- Constraints for table `reservations`
+-- Indexes for table `reservations`
+--
+ALTER TABLE `reservations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `room_id` (`room_id`),
+  ADD KEY `time_slot_id` (`time_slot_id`);
+
+--
+-- Indexes for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `time_slots`
+--
+ALTER TABLE `time_slots`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `reservations`
+--
+ALTER TABLE `reservations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `time_slots`
+--
+ALTER TABLE `time_slots`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Ограничения за дъмпнати таблици
+--
+
+--
+-- Ограничения за таблица `reservations`
 --
 ALTER TABLE `reservations`
   ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
