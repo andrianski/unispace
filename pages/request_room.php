@@ -1,9 +1,6 @@
 <?php
-
-
-
-if (!isset($_SESSION['username'])) {
-    header("Location: ./index.php?page=login");
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ?page=login");
     exit();
 }
 // Вземане на данни от формата
