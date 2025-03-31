@@ -6,13 +6,14 @@ if (!isset($_SESSION['user_id'])) {
 
 if (isset($_POST['room_id'])) {
     $room_id = $_POST['room_id'];
-
+    $date=$_POST['date'];
+    $date= isset($_POST['date']) ? date($_POST['date']) : [];
     $teacher_name = isset($_POST['teacher_name']) ? $_POST['teacher_name'] : null;
     $course_name = isset($_POST['course_name']) ? $_POST['course_name'] : null;
     $time_slots = isset($_POST['time_slot_id']) ? $_POST['time_slot_id'] : [];
 
     // Проверка дали всички задължителни полета са попълнени
-    if (!$teacher_name || !$course_name || empty($time_slots)) {
+    if (!$date ||!$teacher_name || !$course_name || empty($time_slots)) {
         echo "Моля, попълнете всички задължителни полета.";
         exit();
     }
@@ -22,13 +23,14 @@ if (isset($_POST['room_id'])) {
 
         foreach ($time_slots as $time_slot_id) {
             $stmt = $pdo->prepare("
-                INSERT INTO `reservations` (`id`, `user_id`, `room_id`, `time_slot_id`, `status`, `created_at`) 
+                INSERT INTO `reservations` (`id`, `user_id`, `room_id`,`date`, `time_slot_id`, `status`, `created_at`) 
                 VALUES (NULL, :user_id, :room_id, :time_slot_id, 'pending', CURRENT_TIMESTAMP)
             ");
             $stmt->execute([
                 ':user_id' => $_SESSION['user_id'],
                 ':room_id' => $room_id,
-                ':time_slot_id' => $time_slot_id
+                ':time_slot_id' => $time_slot_id,
+                ':date' => $date
             ]);
         }
 
