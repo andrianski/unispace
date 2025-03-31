@@ -1,5 +1,5 @@
 <?php
-require '../config-dist.php'; // Връзка с базата
+require '../config.php'; // Връзка с базата
 
 if (!isset($_GET['room_id'])) {
     echo "<p>Грешка: Не е избрана зала.</p>";
